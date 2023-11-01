@@ -1,13 +1,12 @@
-import { Text, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
+import { Header } from '@/components/header'
 import styleSheet from './styles'
 
 export default function (): React.JSX.Element {
   return (
-    <View style={styleSheet.view}>
-      <Text style={styleSheet.text}>
-        Hacker News App
-      </Text>
-    </View>
+    <SafeAreaView style={styleSheet.view}>
+      <Header>Hacker News App</Header>
+    </SafeAreaView>
   )
 }

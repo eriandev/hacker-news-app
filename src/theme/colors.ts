@@ -12,7 +12,8 @@ const colors = {
   danger: '#DC4949',
 
   white: '#FFF',
-  black: '#06161C'
+  black: '#06161C',
+  transparent: 'transparent'
 } as const
 
 export function color (path: AvailableColor): Color {
