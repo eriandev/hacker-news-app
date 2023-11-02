@@ -8,5 +8,7 @@ export type FormattedNewsToShow = FormattedNews & {
 
 export type UseHomeViewModel = () => {
   newsItems: FormattedNewsToShow[]
+  refreshing: boolean
   goToWebView: (navigation: Navigation<'homeview'>, uri?: string) => Promise<void>
+  onRefresh: () => void
 }

@@ -1,5 +1,5 @@
-import { View } from 'react-native'
-import { FlatList, GestureHandlerRootView } from 'react-native-gesture-handler'
+import { FlatList, RefreshControl, View } from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 import styleSheet from './styles'
 import { color } from '@/theme/colors'
@@ -15,7 +15,7 @@ export const homeViewOptions: ViewOptions = {
 }
 
 export default function ({ navigation }: AppStackScreenProps<'homeview'>): React.JSX.Element {
-  const { newsItems, goToWebView } = useHomeViewModel()
+  const { newsItems, refreshing, goToWebView, onRefresh } = useHomeViewModel()
 
   return (
     <View style={styleSheet.view}>
@@ -24,6 +24,7 @@ export default function ({ navigation }: AppStackScreenProps<'homeview'>): React
           data={newsItems}
           keyExtractor={({ id }) => id}
           contentContainerStyle={styleSheet.list}
+          refreshControl={<RefreshControl enabled={true} refreshing={refreshing} onRefresh={onRefresh} />}
           renderItem={({ item }) => <NewsItem {...item} onPress={() => { void goToWebView(navigation, item?.link) }} />}
         />
       </GestureHandlerRootView>

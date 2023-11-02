@@ -10,7 +10,9 @@ class GetNewsUseCase {
     private readonly storageService: StorageRepository
   ) {}
 
-  async execute (): Promise<FormattedNews[]> {
+  async execute ({ refreshData = false }: { refreshData?: boolean } = {}): Promise<FormattedNews[]> {
+    if (refreshData) await this.storageService.clear()
+
     const storagedNews = await this.storageService.get<FormattedNews[]>(this.STORAGED_NEWS_KEY)
 
     if (storagedNews != null) return storagedNews
