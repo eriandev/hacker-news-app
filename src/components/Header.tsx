@@ -1,7 +1,7 @@
 import { View } from 'react-native'
 
 import { color } from '@/theme/colors'
-import { Text } from '@/components/text'
+import { Text } from '@/components/Text'
 import { createStyleSheet } from '@/theme/style'
 
 export type HeaderProps = {

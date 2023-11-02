@@ -1,6 +1,6 @@
-import { Text } from '@/components/text'
-import { createStyleSheet } from '@/theme/style'
 import { color } from '@/theme/colors'
+import { Text } from '@/components/Text'
+import { createStyleSheet } from '@/theme/style'
 
 export type LabelProps = {
   children: React.ReactNode

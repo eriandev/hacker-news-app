@@ -1,4 +1,4 @@
-import { Text } from '@/components/text'
+import { Text } from '@/components/Text'
 import { createStyleSheet } from '@/theme/style'
 
 export type TitleProps = {
