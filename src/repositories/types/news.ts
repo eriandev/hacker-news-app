@@ -22,6 +22,7 @@ export interface GetNewsResponse {
 }
 
 export interface FormattedNews {
+  id: string
   author: string
   link: string
   title: string

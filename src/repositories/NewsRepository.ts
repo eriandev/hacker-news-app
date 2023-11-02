@@ -16,6 +16,7 @@ export default class NewsRepository {
 
   private getFormattedNewsResponse (news: NewsResponse['hits']): FormattedNews[] {
     return news.map(hit => ({
+      id: hit.objectID.toString(),
       author: hit.author,
       link: hit.story_url,
       title: hit.story_title,
