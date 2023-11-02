@@ -5,20 +5,15 @@ export default createStyleSheet({
   view: {
     height: '100%',
     display: 'flex',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    backgroundColor: color('primary')
   },
-  container: {
+  list: {
     rowGap: 4,
+    paddingTop: 4,
     display: 'flex',
+    paddingBottom: 58,
     paddingHorizontal: 4,
     backgroundColor: color('bg')
-  },
-  item: {
-    paddingVertical: 10,
-    paddingHorizontal: 8,
-    backgroundColor: color('white')
-  },
-  title: {
-    fontSize: 16
   }
 })

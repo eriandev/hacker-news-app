@@ -24,8 +24,8 @@ const styles = createStyleSheet({
     backgroundColor: color('primary')
   },
   title: {
-    fontSize: 16,
+    fontSize: 18,
     color: color('white'),
-    fontFamily: 'red-hat-text-400'
+    fontFamily: 'red-hat-text-600'
   }
 })

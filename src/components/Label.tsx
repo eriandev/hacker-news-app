@@ -16,8 +16,9 @@ export function Label ({ children }: LabelProps): React.JSX.Element {
 
 const styles = createStyleSheet({
   title: {
-    fontSize: 10,
+    fontSize: 12,
     color: color('secondary'),
+    textTransform: 'uppercase',
     fontFamily: 'red-hat-text-italic'
   }
 })

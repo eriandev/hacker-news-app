@@ -24,7 +24,7 @@ export interface GetNewsResponse {
 export interface FormattedNews {
   id: string
   author: string
-  link: string
+  link?: string
   title: string
   createdAt: number
 }
@@ -45,7 +45,7 @@ interface Hit {
   parent_id: number
   story_id: number
   story_title: string
-  story_url: string
+  story_url?: string
   updated_at: Date
 }
 

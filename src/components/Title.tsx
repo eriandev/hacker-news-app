@@ -7,7 +7,7 @@ export type TitleProps = {
 
 export function Title ({ children }: TitleProps): React.JSX.Element {
   return (
-    <Text style={styles.title}>
+    <Text numberOfLines={2} ellipsizeMode="tail" style={styles.title}>
       {children}
     </Text>
   )
@@ -15,7 +15,8 @@ export function Title ({ children }: TitleProps): React.JSX.Element {
 
 const styles = createStyleSheet({
   title: {
-    fontSize: 12,
+    fontSize: 16,
+    lineHeight: 18,
     fontFamily: 'red-hat-text-600'
   }
 })
