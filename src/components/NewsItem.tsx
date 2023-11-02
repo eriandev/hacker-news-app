@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native'
+import { Pressable, Text } from 'react-native'
 import { Swipeable } from 'react-native-gesture-handler'
 
 import { color } from '@/theme/colors'
@@ -8,7 +8,9 @@ import { createStyleSheet } from '@/theme/style'
 import { DeleteAction } from '@/components/DeleteAction'
 import type { FormattedNewsToShow } from '@/viewmodels/types/homeView'
 
-export type NewsItemProps = FormattedNewsToShow
+export type NewsItemProps = FormattedNewsToShow & {
+  onPress: () => void
+}
 
 export function NewsItem ({
   id,
@@ -17,15 +19,16 @@ export function NewsItem ({
   author,
   haveLink,
   createdAt,
-  displayLink
-}: FormattedNewsToShow): React.JSX.Element {
+  displayLink,
+  onPress
+}: NewsItemProps): React.JSX.Element {
   return (
     <Swipeable renderRightActions={DeleteAction}>
-      <View style={styles.container}>
+      <Pressable style={styles.container} onPress={onPress}>
         {haveLink ? <Label>{displayLink}</Label> : null}
         <Title>{title}</Title>
         <Text style={styles.footer}>{author} — {createdAt}</Text>
-      </View>
+      </Pressable>
     </Swipeable>
   )
 }

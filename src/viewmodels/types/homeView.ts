@@ -1,3 +1,4 @@
+import type { Navigation } from '@/routes/AppStack'
 import type { FormattedNews } from '@/repositories/types/news'
 
 export type FormattedNewsToShow = FormattedNews & {
@@ -5,4 +6,7 @@ export type FormattedNewsToShow = FormattedNews & {
   displayLink: string | null
 }
 
-export type UseHomeViewModel = () => { newsItems: FormattedNewsToShow[] }
+export type UseHomeViewModel = () => {
+  newsItems: FormattedNewsToShow[]
+  goToWebView: (navigation: Navigation<'homeview'>, uri?: string) => Promise<void>
+}

@@ -1,9 +1,13 @@
+import { Linking } from 'react-native'
 import { useEffect, useState } from 'react'
 
+import { useToast } from '@/services/Toast'
 import { getNewsUseCase } from '@/useCases/GetNewsUseCase'
-import type { FormattedNewsToShow, UseHomeViewModel } from './types/homeView'
+import type { Navigation } from '@/routes/AppStack'
+import type { FormattedNewsToShow, UseHomeViewModel } from '@/viewmodels/types/homeView'
 
 export const useHomeViewModel: UseHomeViewModel = () => {
+  const { showToast } = useToast()
   const [newsItems, setNewsItems] = useState<FormattedNewsToShow[]>([])
 
   useEffect(() => {
@@ -33,5 +37,21 @@ export const useHomeViewModel: UseHomeViewModel = () => {
     })
   }, [])
 
-  return { newsItems }
+  const goToWebView = async (navigation: Navigation<'homeview'>, uri?: string): Promise<void> => {
+    if (typeof uri !== 'string') {
+      showToast('The news has no link')
+      return
+    }
+
+    const linkSupported = await Linking.canOpenURL(uri)
+
+    if (!linkSupported) {
+      showToast('The link is not supported')
+      return
+    }
+
+    navigation.navigate('webview', { uri })
+  }
+
+  return { newsItems, goToWebView }
 }

@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar'
 
-import HomeView from '@/views/HomeView'
+import { AppNavigationStack } from '@/routes/AppStack'
 
 export default function App (): React.JSX.Element {
   return (
     <>
-      <HomeView />
+      <AppNavigationStack />
       <StatusBar style="auto" />
     </>
   )
