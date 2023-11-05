@@ -1,14 +1,13 @@
 import { Linking } from 'react-native'
 import { useEffect, useState } from 'react'
 
-import { useToast } from '@/services/Toast'
+import { Toast } from '@/services/Toast'
 import { getNewsUseCase } from '@/useCases/GetNewsUseCase'
 import type { Navigation } from '@/routes/AppStack'
-import type { FormattedNews } from '@/repositories/types/news'
+import type { News } from '@/repositories/types/news'
 import type { FormattedNewsToShow, UseHomeViewModel } from '@/viewmodels/types/homeView'
 
 export const useHomeViewModel: UseHomeViewModel = () => {
-  const { showToast } = useToast()
   const [refreshing, setRefreshing] = useState<boolean>(false)
   const [newsItems, setNewsItems] = useState<FormattedNewsToShow[]>([])
 
@@ -22,7 +21,7 @@ export const useHomeViewModel: UseHomeViewModel = () => {
     })
   }, [])
 
-  const getNewsWithViewOptions = (news: FormattedNews[]): FormattedNewsToShow[] => {
+  const getNewsWithViewOptions = (news: News[]): FormattedNewsToShow[] => {
     return news.map(newsData => {
       if (newsData?.link != null) {
         const tail = newsData.link.length > 42 ? '...' : ''
@@ -44,14 +43,14 @@ export const useHomeViewModel: UseHomeViewModel = () => {
 
   const goToWebView = async (navigation: Navigation<'homeview'>, uri?: string): Promise<void> => {
     if (typeof uri !== 'string') {
-      showToast('The news has no link')
+      Toast.show('The news has no link')
       return
     }
 
     const linkSupported = await Linking.canOpenURL(uri)
 
     if (!linkSupported) {
-      showToast('The link is not supported')
+      Toast.show('The link is not supported')
       return
     }
 

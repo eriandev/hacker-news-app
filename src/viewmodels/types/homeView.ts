@@ -1,7 +1,7 @@
 import type { Navigation } from '@/routes/AppStack'
-import type { FormattedNews } from '@/repositories/types/news'
+import type { News } from '@/repositories/types/news'
 
-export type FormattedNewsToShow = FormattedNews & {
+export type FormattedNewsToShow = News & {
   haveLink: boolean
   displayLink: string | null
 }

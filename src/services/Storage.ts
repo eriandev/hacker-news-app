@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-export default class StorageRepository {
+class StorageService {
   async get<T> (key: string): Promise<T | null> {
     try {
       const item = await AsyncStorage.getItem(key)
@@ -36,3 +36,5 @@ export default class StorageRepository {
     }
   }
 }
+
+export const Storage = new StorageService()

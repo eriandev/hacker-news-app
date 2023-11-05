@@ -1,4 +1,4 @@
-export interface NewsResponse {
+export interface APINewsResponse {
   exhaustive: Exhaustive
   exhaustiveNbHits: boolean
   exhaustiveTypo: boolean
@@ -14,14 +14,7 @@ export interface NewsResponse {
   serverTimeMS: number
 }
 
-export interface GetNewsResponse {
-  page: number
-  pageLimit: number
-  newsPerPage: number
-  news: FormattedNews[]
-}
-
-export interface FormattedNews {
+export interface News {
   id: string
   author: string
   link?: string
