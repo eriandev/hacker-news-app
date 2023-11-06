@@ -19,7 +19,7 @@ export interface News {
   author: string
   link?: string
   title: string
-  createdAt: number
+  timestamp: number
 }
 
 interface Exhaustive {

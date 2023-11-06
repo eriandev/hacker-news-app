@@ -3,6 +3,7 @@ import type { News } from '@/repositories/types/news'
 
 export type NewsToShow = News & {
   haveLink: boolean
+  createdAt: string
   displayLink: string | null
 }
 

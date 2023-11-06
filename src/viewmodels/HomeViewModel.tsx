@@ -1,6 +1,7 @@
 import { Linking } from 'react-native'
 import { useEffect, useState } from 'react'
 
+import { Time } from '@/services/Time'
 import { Toast } from '@/services/Toast'
 import { getNewsUseCase } from '@/useCases/GetNewsUseCase'
 import { deleteNewsUseCase } from '@/useCases/DeleteNewsUseCase'
@@ -24,11 +25,16 @@ export const useHomeViewModel: UseHomeViewModel = () => {
 
   const getNewsToShow = (news: News[]): NewsToShow[] => {
     return news.map(newsData => {
+      const title = newsData?.title ?? '[No title]'
+      const createdAt = Time.relativeTime(newsData.timestamp)
+
       if (newsData?.link != null) {
         const tail = newsData.link.length > 42 ? '...' : ''
 
         return ({
           ...newsData,
+          title,
+          createdAt,
           haveLink: true,
           displayLink: newsData?.link.slice(0, 42) + tail
         })
@@ -36,6 +42,8 @@ export const useHomeViewModel: UseHomeViewModel = () => {
 
       return ({
         ...newsData,
+        title,
+        createdAt,
         haveLink: false,
         displayLink: null
       })

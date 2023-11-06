@@ -34,7 +34,7 @@ export default class NewsRepository {
       author: hit.author,
       link: hit.story_url,
       title: hit.story_title,
-      createdAt: hit.created_at_i
+      timestamp: hit.created_at_i
     }))
   }
 }

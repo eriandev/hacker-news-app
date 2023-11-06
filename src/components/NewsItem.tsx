@@ -8,7 +8,7 @@ import { createStyleSheet } from '@/theme/style'
 import { DeleteAction } from '@/components/DeleteAction'
 import type { NewsToShow } from '@/viewmodels/types/homeView'
 
-export type NewsItemProps = Omit<NewsToShow, 'id' | 'link'> & {
+export type NewsItemProps = Omit<NewsToShow, 'id' | 'link' | 'timestamp'> & {
   onDelete: (id: string) => void
   onPress: () => void
 }
