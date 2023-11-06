@@ -7,18 +7,21 @@ export default class NewsRepository {
   private readonly STORAGED_DELETED_NEWS_KEY = '@storaged_deleted_news'
 
   async getNews (refreshData: boolean): Promise<News[]> {
-    if (refreshData) await Storage.delete(this.STORAGED_NEWS_KEY)
-
-    const deletedNews = await Storage.get<string[]>(this.STORAGED_DELETED_NEWS_KEY) ?? []
     const storagedNews = await Storage.get<News[]>(this.STORAGED_NEWS_KEY)
-    if (storagedNews != null) return storagedNews.filter(({ id }) => !deletedNews.includes(id))
+    const deletedNews = await Storage.get<string[]>(this.STORAGED_DELETED_NEWS_KEY) ?? []
+    if (storagedNews != null && !refreshData) return storagedNews.filter(({ id }) => !deletedNews.includes(id))
 
-    const response = await fetch(`${API_URL}/search_by_date?query=mobile`)
-    const { hits } = await response.json() as APINewsResponse
-    const news = this.getFormattedNews(hits).filter(({ id }) => !deletedNews.includes(id))
-    await Storage.set(this.STORAGED_NEWS_KEY, news)
+    try {
+      const response = await fetch(`${API_URL}/search_by_date?query=mobile`)
+      const { hits } = await response.json() as APINewsResponse
+      const news = this.getFormattedNews(hits).filter(({ id }) => !deletedNews.includes(id))
 
-    return news
+      await Storage.set(this.STORAGED_NEWS_KEY, news)
+
+      return news
+    } catch (error) {
+      return storagedNews?.filter(({ id }) => !deletedNews.includes(id)) ?? []
+    }
   }
 
   async deleteNews (id: string): Promise<News[]> {
