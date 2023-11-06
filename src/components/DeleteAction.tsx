@@ -16,13 +16,12 @@ const styles = createStyleSheet({
   container: {
     flex: 1,
     borderRadius: 8,
-    alignItems: 'flex-end',
+    alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: color('danger')
   },
   text: {
     fontSize: 18,
-    paddingRight: 20,
     color: color('white'),
     fontFamily: 'red-hat-text-600'
   }

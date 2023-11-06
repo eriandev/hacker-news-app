@@ -6,24 +6,24 @@ import { Title } from '@/components/Title'
 import { Label } from '@/components/Label'
 import { createStyleSheet } from '@/theme/style'
 import { DeleteAction } from '@/components/DeleteAction'
-import type { FormattedNewsToShow } from '@/viewmodels/types/homeView'
+import type { NewsToShow } from '@/viewmodels/types/homeView'
 
-export type NewsItemProps = FormattedNewsToShow & {
+export type NewsItemProps = Omit<NewsToShow, 'id' | 'link'> & {
+  onDelete: (id: string) => void
   onPress: () => void
 }
 
 export function NewsItem ({
-  id,
-  link,
   title,
   author,
   haveLink,
   createdAt,
   displayLink,
+  onDelete,
   onPress
 }: NewsItemProps): React.JSX.Element {
   return (
-    <Swipeable renderRightActions={DeleteAction}>
+    <Swipeable renderRightActions={DeleteAction} onSwipeableOpen={onDelete}>
       <Pressable style={styles.container} onPress={onPress}>
         {haveLink ? <Label>{displayLink}</Label> : null}
         <Title>{title}</Title>

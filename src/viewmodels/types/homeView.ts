@@ -1,14 +1,15 @@
 import type { Navigation } from '@/routes/AppStack'
 import type { News } from '@/repositories/types/news'
 
-export type FormattedNewsToShow = News & {
+export type NewsToShow = News & {
   haveLink: boolean
   displayLink: string | null
 }
 
 export type UseHomeViewModel = () => {
-  newsItems: FormattedNewsToShow[]
+  newsItems: NewsToShow[]
   refreshing: boolean
   goToWebView: (navigation: Navigation<'homeview'>, uri?: string) => Promise<void>
-  onRefresh: () => void
+  onDelete: (id: string) => Promise<void>
+  onRefresh: () => Promise<void>
 }

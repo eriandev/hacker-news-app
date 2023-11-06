@@ -3,17 +3,18 @@ import { useEffect, useState } from 'react'
 
 import { Toast } from '@/services/Toast'
 import { getNewsUseCase } from '@/useCases/GetNewsUseCase'
+import { deleteNewsUseCase } from '@/useCases/DeleteNewsUseCase'
 import type { Navigation } from '@/routes/AppStack'
 import type { News } from '@/repositories/types/news'
-import type { FormattedNewsToShow, UseHomeViewModel } from '@/viewmodels/types/homeView'
+import type { NewsToShow, UseHomeViewModel } from '@/viewmodels/types/homeView'
 
 export const useHomeViewModel: UseHomeViewModel = () => {
   const [refreshing, setRefreshing] = useState<boolean>(false)
-  const [newsItems, setNewsItems] = useState<FormattedNewsToShow[]>([])
+  const [newsItems, setNewsItems] = useState<NewsToShow[]>([])
 
   useEffect(() => {
     getNewsUseCase.execute().then(news => {
-      const newsWithMoreOptions = getNewsWithViewOptions(news)
+      const newsWithMoreOptions = getNewsToShow(news)
       setNewsItems(newsWithMoreOptions)
     }).catch(error => {
       setNewsItems([])
@@ -21,7 +22,7 @@ export const useHomeViewModel: UseHomeViewModel = () => {
     })
   }, [])
 
-  const getNewsWithViewOptions = (news: News[]): FormattedNewsToShow[] => {
+  const getNewsToShow = (news: News[]): NewsToShow[] => {
     return news.map(newsData => {
       if (newsData?.link != null) {
         const tail = newsData.link.length > 42 ? '...' : ''
@@ -41,7 +42,7 @@ export const useHomeViewModel: UseHomeViewModel = () => {
     })
   }
 
-  const goToWebView = async (navigation: Navigation<'homeview'>, uri?: string): Promise<void> => {
+  const goToWebView = async ({ navigate }: Navigation<'homeview'>, uri?: string): Promise<void> => {
     if (typeof uri !== 'string') {
       Toast.show('The news has no link')
       return
@@ -54,24 +55,35 @@ export const useHomeViewModel: UseHomeViewModel = () => {
       return
     }
 
-    navigation.navigate('webview', { uri })
+    navigate('webview', { uri })
   }
 
-  const onRefresh = (): void => {
+  const onDelete = async (id: string): Promise<void> => {
+    try {
+      const news = await deleteNewsUseCase.execute({ id })
+      const newsWithMoreOptions = getNewsToShow(news)
+      setNewsItems(newsWithMoreOptions)
+      Toast.show('The news has been deleted')
+    } catch (error) {
+      setNewsItems([])
+      console.error(error)
+    }
+  }
+
+  const onRefresh = async (): Promise<void> => {
     setRefreshing(true)
-    getNewsUseCase
-      .execute({ refreshData: true })
-      .then(news => {
-        const newsWithMoreOptions = getNewsWithViewOptions(news)
-        setNewsItems(newsWithMoreOptions)
-      })
-      .catch(error => {
-        setNewsItems([])
-        console.error(error)
-      }).finally(() => {
-        setRefreshing(false)
-      })
+
+    try {
+      const news = await getNewsUseCase.execute({ refreshData: true })
+      const newsWithMoreOptions = getNewsToShow(news)
+      setNewsItems(newsWithMoreOptions)
+    } catch (error) {
+      setNewsItems([])
+      console.error(error)
+    }
+
+    setRefreshing(false)
   }
 
-  return { newsItems, refreshing, goToWebView, onRefresh }
+  return { newsItems, refreshing, goToWebView, onDelete, onRefresh }
 }

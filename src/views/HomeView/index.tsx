@@ -5,6 +5,7 @@ import styleSheet from './styles'
 import { color } from '@/theme/colors'
 import { NewsItem } from '@/components/NewsItem'
 import { useHomeViewModel } from '@/viewmodels/HomeViewModel'
+import type { NewsToShow } from '@/viewmodels/types/homeView'
 import type { AppStackScreenProps, ViewOptions } from '@/routes/AppStack'
 
 export const homeViewOptions: ViewOptions = {
@@ -15,17 +16,36 @@ export const homeViewOptions: ViewOptions = {
 }
 
 export default function ({ navigation }: AppStackScreenProps<'homeview'>): React.JSX.Element {
-  const { newsItems, refreshing, goToWebView, onRefresh } = useHomeViewModel()
+  const { newsItems, refreshing, goToWebView, onDelete, onRefresh } = useHomeViewModel()
+  const getRenderItem = (itemData: NewsToShow): React.JSX.Element => (
+    <NewsItem
+      title={itemData.title}
+      author={itemData.author}
+      haveLink={itemData.haveLink}
+      createdAt={itemData.createdAt}
+      displayLink={itemData.displayLink}
+      onDelete={() => { void onDelete(itemData.id) }}
+      onPress={() => { void goToWebView(navigation, itemData?.link) }}
+    />
+  )
+  const getRefreshControl = (): React.JSX.Element => (
+    <RefreshControl
+      enabled={true}
+      refreshing={refreshing}
+      onRefresh={() => { void onRefresh() }}
+    />
+  )
 
   return (
     <View style={styleSheet.view}>
       <GestureHandlerRootView>
         <FlatList
           data={newsItems}
+          style={{ minHeight: '100%' }}
           keyExtractor={({ id }) => id}
+          refreshControl={getRefreshControl()}
           contentContainerStyle={styleSheet.list}
-          refreshControl={<RefreshControl enabled={true} refreshing={refreshing} onRefresh={onRefresh} />}
-          renderItem={({ item }) => <NewsItem {...item} onPress={() => { void goToWebView(navigation, item?.link) }} />}
+          renderItem={({ item }) => getRenderItem(item)}
         />
       </GestureHandlerRootView>
     </View>
